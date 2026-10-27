@@ -1,0 +1,664 @@
+/* =========================================================
+   ECUAPRONOS - DESIGN SYSTEM ULTRA PREMIUM (CLEAN VIOLET & GOLD)
+   ========================================================= */
+
+/* --- 1. VARIABLES DE COLOR Y DISEÑO (MODO VIP OSCURO) --- */
+:root {
+    --bg-main: #0b0e14;          /* Fondo base oscuro profundo de toda la página */
+    --bg-header: #121620;        /* Color de fondo para la barra de navegación superior */
+    --bg-card: #161b26;          /* Fondo de las tarjetas de partidos, grupos y widgets */
+    --bg-card-hover: #1c2230;    /* Color de tarjeta cuando pasas el mouse por encima */
+    --bg-input: #0d1117;         /* Fondo oscuro para las cajas de texto e inputs */
+
+    --purple-primary: #7c3aed;   /* Morado principal elegante para botones y acentos */
+    --purple-glow: #8b5cf6;      /* Morado brillante para textos destacados y bordes activos */
+    --purple-soft: rgba(124, 58, 237, 0.12); /* Fondo morado transparente para pestañas activas */
+    
+    --gold-accent: #f59e0b;      /* Color dorado para medallas, trofeos y marcadores */
+    --gold-soft: rgba(245, 158, 11, 0.15); /* Fondo dorado translúcido para puntajes */
+
+    --text-white: #f3f4f6;       /* Color de texto principal (blanco suave legible) */
+    --text-muted: #9ca3af;       /* Color de texto secundario para subtítulos y etiquetas */
+    --border-light: rgba(255, 255, 255, 0.08); /* Bordes sutiles entre elementos */
+    --border-purple: rgba(124, 58, 237, 0.3);   /* Bordes con destello morado */
+
+    --badge-live: #10b981;       /* Color verde para estados programados */
+    --badge-finished: #ef4444;   /* Color rojo para estados finalizados */
+}
+
+/* --- 2. RESET Y CONFIGURACIÓN GLOBAL --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-white);
+    min-height: 100vh;
+    line-height: 1.5;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* --- 3. BARRA DE NAVEGACIÓN SUPERIOR (NAVBAR) --- */
+.navbar {
+    background: var(--bg-header);
+    border-bottom: 1px solid var(--border-purple);
+    padding: 14px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-icon {
+    font-size: 1.6rem;
+    color: var(--purple-glow);
+}
+
+.logo-text {
+    font-size: 1.4rem;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    color: var(--text-white);
+}
+
+.logo-text span {
+    color: var(--purple-glow);
+}
+
+.nav-links {
+    display: flex;
+    gap: 12px;
+}
+
+.nav-links a {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-links a:hover, .nav-links a.active {
+    background: var(--purple-soft);
+    color: var(--purple-glow);
+    border: 1px solid var(--border-purple);
+}
+
+.btn-secondary {
+    background: var(--purple-primary);
+    color: #fff !important;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: all 0.25s ease;
+    box-shadow: 0 0 15px rgba(124, 58, 237, 0.3);
+}
+
+.btn-secondary:hover {
+    background: var(--purple-glow);
+    transform: translateY(-1px);
+}
+
+/* --- 4. BANNER PROMOCIONAL --- */
+.hero-banner {
+    background: linear-gradient(180deg, #131122 0%, var(--bg-main) 100%);
+    padding: 30px 20px;
+    text-align: center;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.banner-content h2 {
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: var(--text-white);
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+
+.banner-content p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+/* --- 5. ESTRUCTURA Y FORMULARIOS DE REGISTRO / AUTENTICACIÓN --- */
+.auth-container {
+    max-width: 480px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.auth-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-purple);
+    border-radius: 16px;
+    padding: 30px 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.auth-title {
+    color: var(--text-white);
+    font-size: 1.4rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.auth-title i {
+    color: var(--purple-glow);
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-label {
+    display: block;
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+/* Cajas de texto oscuras unificadas para evitar fondos blancos */
+.form-control, .score-input {
+    width: 100% !important;
+    background: var(--bg-input) !important;
+    border: 1px solid var(--border-light) !important;
+    border-radius: 10px !important;
+    padding: 12px 15px !important;
+    color: var(--text-white) !important;
+    font-size: 0.95rem !important;
+    outline: none !important;
+    box-sizing: border-box !important;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease !important;
+}
+
+.form-control:focus, .score-input:focus {
+    border-color: var(--purple-glow) !important;
+    box-shadow: 0 0 12px rgba(139, 92, 246, 0.25) !important;
+}
+
+/* Botón principal unificado para formularios */
+.btn-submit-primary, .btn-bet {
+    width: 100%;
+    background: var(--purple-primary);
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    padding: 13px;
+    font-size: 0.95rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.btn-submit-primary:hover, .btn-bet:hover {
+    background: var(--purple-glow);
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5);
+    transform: translateY(-2px);
+}
+
+/* --- 6. SECCIÓN DE GRUPOS Y TARJETAS --- */
+.groups-main-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 25px 20px;
+}
+
+.groups-action-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+    margin-bottom: 35px;
+}
+
+.group-form-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 22px;
+}
+
+.group-form-title {
+    color: var(--purple-glow);
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.section-title h2 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--text-white);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-title h2 i {
+    color: var(--purple-glow);
+}
+
+.groups-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 20px;
+    margin-top: 18px;
+}
+
+.group-card-premium {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.25s ease;
+}
+
+.group-card-premium:hover {
+    border-color: var(--border-purple);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+.group-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid var(--border-light);
+    padding-bottom: 12px;
+    margin-bottom: 14px;
+}
+
+.group-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--text-white);
+}
+
+.group-creator-sub {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.group-code-badge {
+    background: var(--purple-soft);
+    color: var(--purple-glow);
+    border: 1px dashed var(--border-purple);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-family: monospace;
+    font-weight: 800;
+}
+
+.members-title-sub {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.members-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 220px;
+    overflow-y: auto;
+}
+
+.member-row-premium {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-light);
+}
+
+.member-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--purple-primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.85rem;
+}
+
+.member-details-name {
+    font-weight: 700;
+    color: var(--text-white);
+    font-size: 0.9rem;
+}
+
+.member-details-sub {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    display: block;
+}
+
+.role-badge {
+    font-size: 0.65rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-left: 6px;
+}
+
+.role-admin {
+    background: var(--gold-accent);
+    color: #000;
+}
+
+.role-member {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-muted);
+}
+
+.points-box {
+    background: var(--gold-soft);
+    color: var(--gold-accent);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    padding: 4px 10px;
+    border-radius: 16px;
+    font-weight: 800;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* =========================================================
+   CORRECCIÓN DE LAYOUT (DOS COLUMNAS Y BOTONES)
+   ========================================================= */
+
+/* Distribución de la página en 2 columnas: Menú a la izquierda y Partidos a la derecha */
+.main-layout-single {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 30px;
+    align-items: start;
+}
+
+/* Evitar que el botón de pronosticar se expanda a toda la pantalla */
+.bet-card-footer .btn-bet {
+    width: auto !important;
+    margin-top: 0 !important;
+}
+
+/* Responsivo para pantallas pequeñas */
+@media (max-width: 768px) {
+    .main-layout-single {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* =========================================================
+   DISEÑO EXACTO INDEX DE LA FOTO (MORADO VIP)
+   ========================================================= */
+
+/* Estructura general de 2 columnas */
+.main-layout-single {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 25px;
+    align-items: start;
+}
+
+/* Tarjeta de partido estilo foto */
+.match-card-custom {
+    background: #120e24;
+    border: 1px solid rgba(139, 92, 246, 0.25);
+    border-radius: 14px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: border-color 0.25s ease, transform 0.25s ease;
+}
+
+.match-card-custom:hover {
+    border-color: rgba(139, 92, 246, 0.6);
+    transform: translateY(-2px);
+}
+
+/* Header interno */
+.match-header-custom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.match-tournament-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.match-tournament-title i {
+    color: #f59e0b;
+}
+
+/* Insignias de Estado */
+.badge-status {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.badge-finished {
+    background: rgba(239, 68, 68, 0.2);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.badge-scheduled {
+    background: rgba(16, 185, 129, 0.2);
+    color: #6ee7b7;
+    border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+/* Cuerpo del partido */
+.match-body-custom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 10px 0;
+}
+
+.team-name-custom {
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: #ffffff;
+    flex: 1;
+}
+
+.team-local { text-align: right; }
+.team-visitor { text-align: left; }
+
+/* Marcador Finalizado (Caja central) */
+.score-box-finished {
+    background: #090614;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #94a3b8;
+    padding: 8px 24px;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 1rem;
+    letter-spacing: 1px;
+}
+
+/* Inputs de Marcador Programado */
+.score-inputs-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.score-box-input {
+    width: 48px !important;
+    height: 40px !important;
+    background: #090614 !important;
+    border: 1px solid rgba(139, 92, 246, 0.4) !important;
+    border-radius: 8px !important;
+    color: #ffffff !important;
+    text-align: center !important;
+    font-weight: 800 !important;
+    font-size: 1.1rem !important;
+    padding: 0 !important;
+}
+
+.score-box-input:focus {
+    border-color: #8b5cf6 !important;
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.4) !important;
+}
+
+.vs-text {
+    color: #8b5cf6;
+    font-weight: 800;
+    font-size: 0.85rem;
+}
+
+/* Footer de Pronóstico */
+.match-footer-custom {
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding-top: 14px;
+    margin-top: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.input-cedula-custom {
+    width: 220px !important;
+    background: #090614 !important;
+    border: 1px solid rgba(139, 92, 246, 0.3) !important;
+    border-radius: 20px !important;
+    padding: 8px 16px !important;
+    color: #ffffff !important;
+    font-size: 0.85rem !important;
+    outline: none !important;
+}
+
+.btn-pronosticar-custom {
+    background: #7c3aed !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 9px 20px !important;
+    font-size: 0.85rem !important;
+    font-weight: 800 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    box-shadow: 0 2px 10px rgba(124, 58, 237, 0.3) !important;
+}
+
+.btn-pronosticar-custom:hover {
+    background: #8b5cf6 !important;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.5) !important;
+}
+
+
+/* =========================================================
+   ESTADOS DE PUNTOS PARA EL HISTORIAL DE PERFIL
+   ========================================================= */
+.pts-badge-success {
+    background: rgba(16, 185, 129, 0.2);
+    color: #6ee7b7;
+    border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.pts-badge-danger {
+    background: rgba(239, 68, 68, 0.2);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+/* =========================================================
+   ESTILOS PARA LOGOS / ESCUDOS DE EQUIPOS EN PARTIDOS
+   ========================================================= */
+.team-logo-img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.4));
+}
+
+/* Estilo unificado para todos los escudos de equipos */
+.team-logo-img {
+    width: 32px !important;
+    height: 32px !important;
+    object-fit: contain !important;
+    flex-shrink: 0;
+}

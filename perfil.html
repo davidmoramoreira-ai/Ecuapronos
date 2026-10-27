@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECUAPRONOS - Mi Perfil e Historial</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+
+    <!-- NAVBAR SUPERIOR -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="brand">
+                <i class="fa-solid fa-futbol logo-icon"></i>
+                <span class="logo-text">ECUA<span>PRONOS</span></span>
+            </div>
+            <nav class="nav-links">
+                <a href="/"><i class="fa-solid fa-fire"></i> En Vivo</a>
+                <a href="/grupos"><i class="fa-solid fa-users"></i> Mis Grupos</a>
+                <a href="/perfil" class="active"><i class="fa-solid fa-id-card"></i> Mi Perfil</a>
+            </nav>
+            <div class="user-actions">
+                <a href="/registros" class="btn-secondary"><i class="fa-solid fa-user-plus"></i> Registrarse</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="groups-main-container">
+        <!-- BUSCADOR DE PERFIL POR CÉDULA -->
+        <div class="widget-box group-form-card" style="max-width: 500px; margin: 0 auto 30px auto;">
+            <h3 class="group-form-title"><i class="fa-solid fa-search"></i> Consultar Perfil por Cédula</h3>
+            <form action="/perfil" method="GET">
+                <div class="form-group">
+                    <label class="form-label">Número de Cédula:</label>
+                    <input type="text" name="cedula" class="form-control" placeholder="Ej. 1712345678" value="{{ cedula_buscada }}" required>
+                </div>
+                <button type="submit" class="btn-submit-primary">
+                    <i class="fa-solid fa-user-check"></i> VER MI PERFIL Y PUNTOS
+                </button>
+            </form>
+        </div>
+
+        {% if cedula_buscada and usuario %}
+            <!-- TARJETA DE INFORMACIÓN DEL USUARIO (NOMBRE Y USERNAME) -->
+            <div class="widget-box group-form-card" style="max-width: 700px; margin: 0 auto 25px auto; text-align: center; background: var(--bg-card);">
+                <i class="fa-solid fa-circle-user" style="font-size: 3rem; color: var(--purple-glow); margin-bottom: 10px;"></i>
+                <h2 style="color: #ffffff; font-size: 1.6rem; font-weight: 800; margin-bottom: 4px;">{{ usuario.nombre }}</h2>
+                <p style="color: var(--purple-glow); font-weight: 700; font-size: 1rem; margin-bottom: 8px;">@{{ usuario.username }}</p>
+                <span style="font-size: 0.85rem; color: var(--text-muted);">Cédula: {{ usuario.cedula }} | Correo: {{ usuario.email }}</span>
+            </div>
+
+            <!-- TARJETAS DE RESUMEN Y ESTADÍSTICAS -->
+            <div style="max-width: 700px; margin: 0 auto 30px auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+                <div class="group-card-premium" style="text-align: center;">
+                    <i class="fa-solid fa-trophy" style="font-size: 2.2rem; color: #f59e0b; margin-bottom: 8px;"></i>
+                    <h3 style="color: var(--text-muted); font-size: 0.9rem;">PUNTOS TOTALES ACUMULADOS</h3>
+                    <span style="font-size: 2rem; font-weight: 900; color: #ffffff;">{{ puntos_totales }} PTS</span>
+                </div>
+
+                <div class="group-card-premium" style="text-align: center;">
+                    <i class="fa-solid fa-chart-line" style="font-size: 2.2rem; color: #8b5cf6; margin-bottom: 8px;"></i>
+                    <h3 style="color: var(--text-muted); font-size: 0.9rem;">EFECTIVIDAD DE ACIERTO</h3>
+                    <span style="font-size: 2rem; font-weight: 900; color: #ffffff;">{{ efectividad }}%</span>
+                </div>
+            </div>
+
+            <!-- TABLA DE HISTORIAL DE PRONÓSTICOS -->
+            <div class="section-title" style="max-width: 700px; margin: 0 auto 15px auto;">
+                <h2><i class="fa-solid fa-clock-rotate-left"></i> HISTORIAL DE PRONÓSTICOS GUARDADOS</h2>
+            </div>
+
+            <div style="max-width: 700px; margin: 0 auto;">
+                {% if pronosticos %}
+                    <div style="background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 12px; overflow: hidden;">
+                        {% for p in pronosticos %}
+                            <div class="member-row-premium" style="padding: 15px 20px; border-bottom: 1px solid var(--border-light);">
+                                <div>
+                                    <span style="font-size: 0.75rem; color: #8b5cf6; font-weight: 800;">{{ p.torneo }}</span>
+                                    <h4 style="color: #ffffff; margin: 2px 0;">{{ p.partido }}</h4>
+                                    <span style="font-size: 0.8rem; color: var(--text-muted);">
+                                        Tu Pronóstico: <strong style="color: #ffffff;">{{ p.pronostico }}</strong> | 
+                                        Resultado Real: <strong style="color: #f59e0b;">{{ p.resultado_real }}</strong>
+                                    </span>
+                                </div>
+
+                                <div>
+                                    {% if p.estado == 'FINALIZADO' %}
+                                        <span class="points-box {{ 'pts-badge-success' if p.puntos > 0 else 'pts-badge-danger' }}">
+                                            +{{ p.puntos }} PTS
+                                        </span>
+                                    {% else %}
+                                        <span class="badge-status badge-scheduled">PENDIENTE</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="empty-groups-box">
+                        <i class="fa-solid fa-folder-open empty-groups-icon"></i>
+                        <p>Aún no tienes pronósticos registrados en el sistema.</p>
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

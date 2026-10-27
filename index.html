@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECUAPRONOS - Pronósticos Deportivos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body>
+
+    <!-- NAVBAR SUPERIOR -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="brand">
+                <i class="fa-solid fa-futbol logo-icon"></i>
+                <span class="logo-text">ECUA<span>PRONOS</span></span>
+            </div>
+            <nav class="nav-links">
+                <a href="/" class="active"><i class="fa-solid fa-fire"></i> En Vivo</a>
+                <a href="/grupos"><i class="fa-solid fa-users"></i> Mis Grupos</a>
+                <a href="/perfil"><i class="fa-solid fa-id-card"></i> Mi Perfil</a>
+            </nav>
+            <div class="user-actions">
+                <a href="/registros" class="btn-secondary"><i class="fa-solid fa-user-plus"></i> Registrarse</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- BANNER DE BIENVENIDA -->
+    <div class="hero-banner">
+        <div class="banner-content">
+            <h2> PRONOSTICA Y GANA EN TUS TORNEOS FAVORITOS</h2>
+            <p>Selecciona tu competición, ingresa tu pronóstico y compite con tus panas en los grupos.</p>
+        </div>
+    </div>
+
+    <!-- NAVEGACIÓN DE TORNEOS -->
+    <div class="tournament-selector-container">
+        <a href="/?torneo=LigaPro"
+            class="tournament-tab {{ 'active' if torneo_activo == 'LigaPro' or not torneo_activo else '' }}">
+            <i class="fa-solid fa-trophy"></i> LigaPro
+        </a>
+        <a href="/?torneo=Libertadores"
+            class="tournament-tab {{ 'active' if torneo_activo == 'Libertadores' else '' }}">
+            <i class="fa-solid fa-earth-americas"></i> Libertadores
+        </a>
+        <a href="/?torneo=Champions" class="tournament-tab {{ 'active' if torneo_activo == 'Champions' else '' }}">
+            <i class="fa-solid fa-star"></i> Champions League
+        </a>
+    </div>
+
+    <!-- CONTENEDOR PRINCIPAL DE PARTIDOS -->
+    <main class="main-content" style="max-width: 800px; margin: 0 auto; padding: 20px;">
+        <div class="section-title">
+            <h2><i class="fa-solid fa-calendar-days"></i> PARTIDOS DISPONIBLES ({{ torneo_activo }})</h2>
+        </div>
+
+        {% if partidos %}
+        <div style="display: flex; flex-direction: column; gap: 15px;">
+            {% for partido in partidos %}
+            <div
+                style="background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 12px; padding: 18px 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+
+                <!-- CABECERA DE LA TARJETA -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <span style="color: #f59e0b; font-size: 0.8rem; font-weight: 700;">
+                        <i class="fa-solid fa-trophy"></i> {{ partido.torneo }}
+                    </span>
+                    <span
+                        style="background: {{ 'rgba(239, 68, 68, 0.2)' if partido.estado == 'FINALIZADO' else 'rgba(16, 185, 129, 0.2)' }}; color: {{ '#ef4444' if partido.estado == 'FINALIZADO' else '#10b981' }}; padding: 3px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 800;">
+                        {{ partido.estado }}
+                    </span>
+                </div>
+
+                <!-- ENFRENTAMIENTO Y ESCUDOS -->
+                <div
+                    style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 15px;">
+
+                    <!-- EQUIPO LOCAL -->
+                    <div style="display: flex; align-items: center; justify-content: flex-end; gap: 8px; flex: 1;">
+                        <span style="color: #ffffff; font-weight: 700; font-size: 0.95rem;">{{ partido.equipo_local
+                            }}</span>
+                        {% if partido.logo_local %}
+                        <img src="{{ partido.logo_local }}" alt="logo" width="30" height="30"
+                            style="object-fit: contain; min-width: 30px;">
+                        {% endif %}
+                    </div>
+
+                    <!-- MARCADOR O INPUTS -->
+                    {% if partido.estado == 'FINALIZADO' %}
+                    <div
+                        style="background: rgba(0,0,0,0.5); padding: 4px 12px; border-radius: 6px; color: #fff; font-weight: 800;">
+                        {{ partido.resultado_real.goles_local if partido.resultado_real else 0 }} - {{
+                        partido.resultado_real.goles_visitante if partido.resultado_real else 0 }}
+                    </div>
+                    {% else %}
+                    <div style="display: flex; align-items: center; gap: 5px;">
+                        <input type="number" id="local_{{ partido.partido_id }}" class="form-control"
+                            style="width: 45px; text-align: center;" min="0" value="0">
+                        <span style="color: #a855f7; font-weight: 800;">vs</span>
+                        <input type="number" id="visitante_{{ partido.partido_id }}" class="form-control"
+                            style="width: 45px; text-align: center;" min="0" value="0">
+                    </div>
+                    {% endif %}
+
+                    <!-- EQUIPO VISITANTE -->
+                    <div style="display: flex; align-items: center; justify-content: flex-start; gap: 8px; flex: 1;">
+                        {% if partido.logo_visitante %}
+                        <img src="{{ partido.logo_visitante }}" alt="logo" width="30" height="30"
+                            style="object-fit: contain; min-width: 30px;">
+                        {% endif %}
+                        <span style="color: #ffffff; font-weight: 700; font-size: 0.95rem;">{{ partido.equipo_visitante
+                            }}</span>
+                    </div>
+
+                </div>
+
+                <!-- BARRA DE PRONÓSTICO (SOLO PROGRAMADOS) -->
+                {% if partido.estado != 'FINALIZADO' %}
+                <div
+                    style="display: flex; gap: 10px; border-top: 1px solid var(--border-light); padding-top: 10px; margin-top: 5px;">
+                    <input type="text" id="cedula_{{ partido.partido_id }}" class="form-control"
+                        style="flex: 1; font-size: 0.8rem; padding: 6px 10px;" placeholder="Ingresa tu Cédula">
+                    <button class="btn-submit-primary"
+                        style="margin-top: 0; padding: 6px 16px; font-size: 0.8rem; width: auto;"
+                        onclick="guardarPronostico('{{ partido.partido_id }}')">
+                        <i class="fa-solid fa-check"></i> PRONOSTICAR
+                    </button>
+                </div>
+                {% endif %}
+
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-groups-box">
+            <i class="fa-solid fa-futbol empty-groups-icon"></i>
+            <p>No hay partidos registrados para esta competición actualmente.</p>
+        </div>
+        {% endif %}
+    </main>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECUAPRONOS - Mis Grupos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+
+    <!-- NAVBAR SUPERIOR -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="brand">
+                <i class="fa-solid fa-futbol logo-icon"></i>
+                <span class="logo-text">ECUA<span>PRONOS</span></span>
+            </div>
+            <nav class="nav-links">
+                <a href="/"><i class="fa-solid fa-fire"></i> En Vivo</a>
+                <a href="/grupos" class="active"><i class="fa-solid fa-users"></i> Mis Grupos</a>
+                <a href="/perfil"><i class="fa-solid fa-id-card"></i> Mi Perfil</a>
+            </nav>
+            <div class="user-actions">
+                <a href="/registros" class="btn-secondary"><i class="fa-solid fa-user-plus"></i> Registrarse</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- BANNER PROMOCIONAL -->
+    <div class="hero-banner">
+        <div class="banner-content">
+            <h2> GESTIÓN DE GRUPOS Y GRUPOS PRIVADAS</h2>
+            <p>Crea tu propia liga entre panas o únete con un código de invitación.</p>
+        </div>
+    </div>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="groups-main-container">
+        
+        <!-- ACCIONES DE GRUPOS (FORMULARIOS) -->
+        <div class="groups-action-grid">
+            
+            <!-- CREAR GRUPO -->
+            <div class="widget-box group-form-card">
+                <h3 class="group-form-title"><i class="fa-solid fa-plus-circle"></i> Crear Nuevo Grupo / Polla</h3>
+                <form id="formCrearGrupo">
+                    <div class="form-group">
+                        <label class="form-label">Nombre del Grupo:</label>
+                        <input type="text" id="nombre_grupo" class="form-control" placeholder="Ej. Los Pibes de Ecuapronos" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Código de Invitación:</label>
+                        <input type="text" id="codigo_crear" class="form-control" placeholder="Ej. ECU2026" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Cédula del Creador:</label>
+                        <input type="text" id="cedula_creador" class="form-control" placeholder="Tu Cédula" required>
+                    </div>
+                    <button type="submit" class="btn-submit-primary">
+                        <i class="fa-solid fa-plus-circle"></i> CREAR GRUPO
+                    </button>
+                </form>
+            </div>
+
+            <!-- UNIRSE A GRUPO -->
+            <div class="widget-box group-form-card">
+                <h3 class="group-form-title"><i class="fa-solid fa-right-to-bracket"></i> Unirse a un Grupo Existente</h3>
+                <form id="formUnirseGrupo">
+                    <div class="form-group">
+                        <label class="form-label">Código de Invitación del Grupo:</label>
+                        <input type="text" id="codigo_unirse" class="form-control" placeholder="Ej. ECU2026" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tu Cédula de Usuario:</label>
+                        <input type="text" id="cedula_unirse" class="form-control" placeholder="Tu Cédula registrada" required>
+                    </div>
+                    <button type="submit" class="btn-submit-primary">
+                        <i class="fa-solid fa-right-to-bracket"></i> UNIRME AL GRUPO
+                    </button>
+                </form>
+            </div>
+
+        </div>
+
+        <!-- LISTA DE GRUPOS ACTIVOS -->
+        <div class="section-title">
+            <h2><i class="fa-solid fa-trophy"></i> GRUPOS ACTIVOS Y TABLA DE POSICIONES</h2>
+        </div>
+
+        {% if grupos %}
+            <div class="groups-grid">
+                {% for grupo in grupos %}
+                    <div class="group-card-premium">
+                        <!-- ENCABEZADO DEL GRUPO -->
+                        <div class="group-header">
+                            <div>
+                                <h3 class="group-title">{{ grupo.nombre_grupo }}</h3>
+                            </div>
+                            <span class="group-code-badge"><i class="fa-solid fa-key"></i> {{ grupo.codigo_invitacion }}</span>
+                        </div>
+
+                        <!-- LISTA DE MIEMBROS Y TABLA DE POSICIONES -->
+                        <h4 class="members-title-sub">
+                            <i class="fa-solid fa-users"></i> Miembros ({{ grupo.miembros | length }}):
+                        </h4>
+
+                        <div class="members-container">
+                            {% for miembro in grupo.miembros %}
+                                <div class="member-row-premium">
+                                    <div class="member-info">
+                                        <!-- AVATAR CON PODIO -->
+                                        <div class="avatar-circle {{ 'avatar-gold' if loop.index == 1 else ('avatar-silver' if loop.index == 2 else ('avatar-bronze' if loop.index == 3 else 'avatar-default')) }}">
+                                            {% if loop.index == 1 %}🥇{% elif loop.index == 2 %}🥈{% elif loop.index == 3 %}🥉{% else %}{{ (miembro.nombre if miembro is mapping and miembro.nombre else 'U')[0] | upper }}{% endif %}
+                                        </div>
+                                        <div>
+                                            <div class="member-details-name">
+                                                {{ miembro.nombre if miembro is mapping and miembro.nombre else ('Usuario ' + miembro.cedula if miembro is mapping else miembro) }}
+                                                <span class="role-badge {{ 'role-admin' if miembro is mapping and miembro.rol == 'admin' else 'role-member' }}">
+                                                    {{ miembro.rol if miembro is mapping and miembro.rol else 'MIEMBRO' }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- PUNTOS DESTACADOS -->
+                                    <div class="points-box">
+                                        <i class="fa-solid fa-medal"></i> 
+                                        {{ miembro.puntos_totales if miembro is mapping and miembro.puntos_totales is defined else 0 }} pts
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- CHAT / MURO DE INTERACCIÓN DEL GRUPO -->
+                        <div style="margin-top: 18px; border-top: 1px solid var(--border-light); padding-top: 14px;">
+                            <h4 class="members-title-sub" style="color: var(--purple-glow); margin-bottom: 8px;">
+                                <i class="fa-solid fa-comments"></i> Chat del Grupo:
+                            </h4>
+
+                            <!-- CAJA DE MENSAJES -->
+                            <div id="chat_box_{{ grupo.codigo_invitacion }}" style="max-height: 160px; overflow-y: auto; background: rgba(0, 0, 0, 0.25); border: 1px solid var(--border-light); border-radius: 8px; padding: 10px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 8px;">
+                                <p style="font-size: 0.75rem; color: var(--text-muted); text-align: center;">Presiona "Cargar Chat" para ver los mensajes.</p>
+                            </div>
+
+                            <!-- INPUTS PARA PUBLICAR MENSAJE -->
+                            <div style="display: flex; flex-direction: column; gap: 8px;">
+                                <div style="display: flex; gap: 8px;">
+                                    <input type="text" id="cedula_chat_{{ grupo.codigo_invitacion }}" class="form-control" style="width: 35% !important; font-size: 0.8rem !important; padding: 6px 10px !important;" placeholder="Tu Cédula">
+                                    <input type="text" id="msg_chat_{{ grupo.codigo_invitacion }}" class="form-control" style="width: 65% !important; font-size: 0.8rem !important; padding: 6px 10px !important;" placeholder="Escribe al grupo...">
+                                </div>
+                                <div style="display: flex; gap: 8px;">
+                                    <button class="btn-bet" style="width: 50%; font-size: 0.75rem; padding: 6px; justify-content: center;" onclick="cargarMensajes('{{ grupo.codigo_invitacion }}')">
+                                        <i class="fa-solid fa-arrows-rotate"></i> Cargar Chat
+                                    </button>
+                                    <button class="btn-submit-primary" style="width: 50%; font-size: 0.75rem; padding: 6px; margin-top: 0; justify-content: center;" onclick="enviarMensajeChat('{{ grupo.codigo_invitacion }}')">
+                                        <i class="fa-solid fa-paper-plane"></i> Enviar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-groups-box" style="text-align: center; padding: 40px; color: var(--text-muted);">
+                <i class="fa-solid fa-folder-open" style="font-size: 2.5rem; margin-bottom: 10px;"></i>
+                <p>No hay grupos creados actualmente. ¡Sé el primero en crear uno para competir!</p>
+            </div>
+        {% endif %}
+
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

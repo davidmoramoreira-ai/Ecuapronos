@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECUAPRONOS - Registrarse</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+
+    <!-- NAVBAR SUPERIOR -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="brand">
+                <i class="fa-solid fa-futbol logo-icon"></i>
+                <span class="logo-text">ECUA<span>PRONOS</span></span>
+            </div>
+            <nav class="nav-links">
+                <a href="/"><i class="fa-solid fa-fire"></i> En Vivo</a>
+                <a href="/grupos"><i class="fa-solid fa-users"></i> Mis Grupos</a>
+            </nav>
+            <div class="user-actions">
+                <a href="/registros" class="btn-secondary"><i class="fa-solid fa-user-plus"></i> Registrarse</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- FORMULARIO CENTRADO -->
+    <div class="auth-container">
+        <div class="auth-card">
+            <h2 class="auth-title"><i class="fa-solid fa-user-plus"></i> Crear Nueva Cuenta</h2>
+            
+            <form id="formRegistro">
+                <div class="form-group">
+                    <label class="form-label">Cédula de Identidad:</label>
+                    <input type="text" id="cedula" class="form-control" placeholder="Ej. 1712345678" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Nombre Completo:</label>
+                    <input type="text" id="nombre" class="form-control" placeholder="Ej. David Mora" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Nombre de Usuario (Username):</label>
+                    <input type="text" id="username" class="form-control" placeholder="Ej. davidmora" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Correo Electrónico:</label>
+                    <input type="email" id="email" class="form-control" placeholder="correo@ejemplo.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Contraseña:</label>
+                    <input type="password" id="password" class="form-control" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" class="btn-submit-primary">
+                    <i class="fa-solid fa-check-circle"></i> REGISTRARME EN ECUAPRONOS
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
